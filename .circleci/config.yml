@@ -2,6 +2,8 @@
 #
 # Check https://circleci.com/docs/2.0/language-go/ for more details
 version: 2.1
+orbs:
+  slack: circleci/slack@3.4.2
 executors:
   docker-publisher:
     # environment:
@@ -35,6 +37,13 @@ jobs:
       - run:
           name: Build
           command: make build
+          
+      - slack/notify:
+          channel: CHANNELID
+          color: '#42e2f4'
+          mentions: 'USERID1,USERID2,'
+          message: This is a custom message notification
+          webhook: webhook
 
       # - setup_remote_docker
       # - run:
@@ -84,3 +93,6 @@ workflows:
       #     filters:
       #       branches:
       #         only: cd-test
+      - slack/approval-notification:
+          message: Pending approval
+          webhook: webhook
