@@ -31,3 +31,11 @@ jobs:
       - run:
           name: Build
           command: make build
+workflows:
+  version: 2
+  build-master:
+    jobs:
+      - build:
+          filters:
+            branches:
+              only: master
