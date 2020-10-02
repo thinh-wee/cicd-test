@@ -87,7 +87,6 @@ workflows:
   build-master:
     jobs:
       - build:
-          name: build-master
           filters:
             branches:
               only: cd-test
