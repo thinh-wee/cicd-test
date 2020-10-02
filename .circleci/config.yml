@@ -47,6 +47,11 @@ jobs:
           include_job_number_field: false
           include_visit_job_action: false
 
+      - run: 
+          name: Failed
+          command: |
+            exit 1
+
       - setup_remote_docker
       - run:
           name: Build Docker image
