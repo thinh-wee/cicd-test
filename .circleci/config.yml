@@ -14,6 +14,13 @@ executors:
       - image: circleci/golang:1.15
 
 jobs:
+  slack-notify:
+    steps:
+      - slack/notify:
+          message: "Start the CI / CD process:\r\nTriggered by *<https://github.com/${CIRCLE_PROJECT_USERNAME}/${CIRCLE_PROJECT_REPONAME}/commit/${CIRCLE_SHA1}|commit ${CIRCLE_SHA1}>* on ${CIRCLE_PROJECT_REPONAME}'s *${CIRCLE_BRANCH}* branch (<https://circleci.com/workflow-run/${CIRCLE_WORKFLOW_ID}|workflow here>)"
+          color: "#0055c2"
+          mentions: "${ORBS_USER_GROUP_UUID}"
+
   build:
     executor: docker-publisher
 
@@ -91,6 +98,10 @@ workflows:
   version: 2
   build-master:
     jobs:
+      - slack-notify:
+          filters:
+            branches:
+              only: cd-test
       - build:
           filters:
             branches:
